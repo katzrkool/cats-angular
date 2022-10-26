@@ -1,0 +1,88 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <ng-container *ngIf="this.catList.length > 0; else noCats">
+    <ng-container *ngIf="!fetching; else spinner">
+      <h2>Table of Cats</h2>
+      <table mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
+        <ng-container matColumnDef="info.name">
+          <th mat-header-cell mat-sort-header="info.name" *matHeaderCellDef>
+            Name
+          </th>
+          <td mat-cell *matCellDef="let cat">{{ cat.info.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="info.age">
+          <th mat-header-cell mat-sort-header="info.age" *matHeaderCellDef>
+            Age
+          </th>
+          <td mat-cell *matCellDef="let cat">{{ cat.info.age }}</td>
+        </ng-container>
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef style="width: 25%">Actions</th>
+          <td mat-cell *matCellDef="let cat">
+            <div fxLayout="row" fxLayoutAlign="space-evenly center">
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="openEdit($event, cat)"
+              >
+                Edit
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="deleteCat($event, cat)"
+              >
+                Delete
+              </button>
+              <button
+                mat-icon-button
+                matTooltip="View description."
+                (click)="expandedCat = expandedCat === cat ? null : cat"
+              >
+                <mat-icon *ngIf="expandedCat != cat">expand_more</mat-icon>
+                <mat-icon *ngIf="expandedCat == cat">expand_less</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expandedCat">
+          <td
+            mat-cell
+            *matCellDef="let cat"
+            [attr.colspan]="displayedColumns.length + 1"
+          >
+            <div
+              class="cat-description"
+              [@detailExpand]="cat == expandedCat ? 'expanded' : 'collapsed'"
+            >
+              <div>
+                {{ cat.info.description }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="cat-row"
+          [class.expanded-row]="expandedCat == row"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedCat']"
+          class="cat-description-row"
+        ></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </ng-container>
+  </ng-container>
+</div>
+<ng-template #noCats>
+  <p>There are no cats. Click "Create a cat".</p>
+</ng-template>
+<ng-template #spinner>
+  <mat-spinner diameter="25"></mat-spinner>
+</ng-template>

@@ -1,0 +1,20 @@
+table {
+  width: 65%;
+}
+
+tr.cat-description-row {
+  height: 0;
+}
+
+tr.cat-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.cat-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.cat-description {
+  overflow: hidden;
+  display: flex;
+}
