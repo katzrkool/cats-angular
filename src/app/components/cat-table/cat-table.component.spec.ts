@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from 'src/app/app.module';
 
 import { CatTableComponent } from './cat-table.component';
 
@@ -8,9 +9,9 @@ describe('CatTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatTableComponent ]
-    })
-    .compileComponents();
+      declarations: [CatTableComponent],
+      imports: [AppModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CatTableComponent);
     component = fixture.componentInstance;
